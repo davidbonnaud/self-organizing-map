@@ -1,11 +1,11 @@
-// cs-sketch.js; P5 key animation fcns.  // CF p5js.org/reference
-// Time-stamp: <2020-02-02 15:58:23 Chuck Siska>
-
 // Make global g_canvas JS 'object': a key-value 'dictionary'.
 var g_canvas = { cell_size:15, wid:60, hgt:40 }; // JS Global var, w canvas size info.
 var g_frame_cnt = 0; // Setup a P5 display-frame counter, to do anim
 var g_frame_mod = 10; // Update ever 'mod' frames.
 var g_stop = 0; // Go by default.
+
+//array of all the different inputs for the algorithm to use
+const sampleInputs = ["05CA62A7BC2B6F03", "065DE66B71F040BA", "0684FB89C3D5754E", "07C9A2D18D3E4B65", "09F48E7862ED2616", "1FAB3D47905FC286", "286E1AD0342D7859",  "30E530BC4786AF21", "328DE47C65C10BA9", "34F2756FD18E90BA", "90BA34F07E56F180", "D7859286E2FD0342"]
 
 function setup() // P5 Setup Fcn
 {
@@ -15,153 +15,29 @@ function setup() // P5 Setup Fcn
     createCanvas( width, height );  // Make a P5 canvas.
 }
 
-// create an ant class that acts as the bot navigating the squares and checking the colors
-class Ant {
-  constructor(x, y, color, box){
-    this.dir = 0;
-    this.x = x;
-    this.y = y;
-    this.color = color;
-    this.box = box;
-    this.mode = "LRMode";
-    this.counter = 0;
-    this.lr = "straight";
-  }
-  
-  move(lr) { //all purpose move function taking in the direction of the ant
-      let dx = 0;
-      let dy = 0;
+function algoLoop(){ //main algo loop that calculates each pass of every algorithm
 
-      //sequence of checks to turn the ant left or right or continue straight depending on 
-      //the current facing direction
-      if(this.dir === 0){ //north direction changes
-        if(lr === "left"){
-          dx = -1;
-          dy = 0;
-          this.dir = 2;
-        } else if(lr === "right"){
-          dx = 1;
-          dy = 0;
-          this.dir = 3;
-        } else if(lr === "straight"){
-          dx = 0;
-          dy = -1;
-        }
-      } else if(this.dir === 1){ //south direction changes
-        if(lr === "left"){
-          dx = 1;
-          dy = 0;
-          this.dir = 3;
-        } else if(lr === "right"){
-          dx = 2;
-          dy = 0;
-          this.dir = 2;
-        } else if(lr === "straight"){
-          dx = 0;
-          dy = 1;
-        }
-      } else if(this.dir === 2){ //west direction changes
-        if(lr === "left"){
-          dx = 0;
-          dy = 1;
-          this.dir = 1;
-        } else if(lr === "right"){
-          dx = 0;
-          dy = -1;
-          this.dir = 0;
-        } else if(lr === "straight"){
-          dx = -1;
-          dy = 0;
-        }
-      } else if(this.dir === 3){ //east direction changes
-        if(lr === "left"){
-          dx = 0;
-          dy = -1;
-          this.dir = 0;
-        } else if(lr === "right"){
-          dx = 0;
-          dy = 1;
-          this.dir = 1;
-        } else if(lr === "straight"){
-          dx = 1;
-          dy = 0;
-        }
-      }
-
-      let x = (dx + this.x + this.box.wid) % this.box.wid; // Move-x.  Ensure positive b4 mod.
-      let y = (dy + this.y + this.box.hgt) % this.box.hgt; // Ditto y.
-
-      this.x = x;
-      this.y = y;
-
-      //console.log( "bot x,y,dir,clr = " + x + "," + y + "," + this.dir + "," +  color );
-  }
-  
-  draw() {
-      let sz = g_canvas.cell_size;
-      let sz2 = sz / 2;
-      let x = 1+ this.x*sz; // Set x one pixel inside the sz-by-sz cell.
-      let y = 1+ this.y*sz;
-      let big = sz -2; // Stay inside cell walls.
-      let acolors = get( x + sz2, y + sz2 ); // Get cell interior pixel color [RGBA] array.
-      //console.log(acolors);
-      let pix = acolors[ 0 ] + acolors[ 1 ] + acolors[ 2 ];
-      //console.log(pix);
-      //console.log( "acolors,pix = " + acolors + ", " + pix );
-     
-    
-      // Fill 'color': its a keystring, or a hexstring like "#5F", etc.  See P5 docs.
-      fill( "#" + this.color );
-      // Paint the cell.
-      rect( x, y, big, big );
-      
-      //sequence of checks that see which color square the ant is currently on, and 
-      //change the behavior accordingly by calling the move function and passing the 
-      //current nose position, also changes current color so square is painted 
-      //the color it needs to be
-      if(this.counter > 0){ //if counter is active, paint squares blue and continue straight
-        this.color = "0000FF";
-        this.move(this.lr);
-        this.counter--;
-      } else if(pix === 0 || acolors[2] === 255){ //instruct ant to turn left if square is black or blue
-        this.color = "FFFF00";
-        this.lr = "left";
-        this.move(this.lr);
-      } else if(acolors[0] === 255 && acolors[1] === 0){ //instruct ant to turn right if current square is red and color square black
-        this.color = "000000";
-        this.lr = "right";
-        this.move(this.lr);
-      } else if(acolors[0] === 255 && acolors[1] === 255){ //instruct ant to go straight and color square red, start the counter of blue squares to be placed
-        this.color = "FF0000";
-        fill( "#" + this.color );
-        // Paint the cell.
-        rect( x, y, big, big );
-        this.color = "0000FF";
-        this.lr = "straight";
-        this.move(this.lr);
-        this.counter = 5;
-      }
-  }
-  
 }
 
-var g_box = { t:1, hgt:40, l:1, wid:60 }; // Box in which ant can move.
-let ant = new Ant(30, 20, "FFFF00", g_box); // Create the Ant object
+var g_box = { t:1, hgt:40, l:1, wid:60 }; 
+
+const randomInput = sampleInputs[Math.floor(Math.random() * sampleInputs.length)];
+algoLoop(randomInput);
 
 function draw_update()  // Update our display.
 {
   //console.log( "g_frame_cnt = " + g_frame_cnt );
   //start the ant and render the square changes
-  ant.draw();
+  //ant.draw();
 }
 
 function draw()  // P5 Frame Re-draw Fcn, Called for Every Frame.
 {
-    ++g_frame_cnt;
-    if (0 == g_frame_cnt % g_frame_mod)
-    {
-        if (!g_stop) draw_update();
-    }
+    // ++g_frame_cnt;
+    // if (0 == g_frame_cnt % g_frame_mod)
+    // {
+    //     if (!g_stop) draw_update();
+    // }
 }
 
 function keyPressed( )
