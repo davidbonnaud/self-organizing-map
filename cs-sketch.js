@@ -20,7 +20,15 @@ function setup() // P5 Setup Fcn
     createCanvas( width, height );  // Make a P5 canvas.
     drawAlgoNames(algoNames);
     let qsAlgo = new Quicksort(randomInput.split(''));
-    drawAlgoChars(qsAlgo.iterate(), qsAlgo.curStep);
+    let qsAlgoTest = new Quicksort(randomInput.split(''));
+    let qsAlgoTest2 = new Quicksort(randomInput.split(''));
+    let qsAlgoTest3 = new Quicksort(randomInput.split(''));
+    for(let i = 0; i < 20; i++){
+        drawAlgoChars(qsAlgo.iterate(), qsAlgo.curStep, 0);
+        //drawAlgoChars(qsAlgoTest.iterate(), qsAlgoTest.curStep, 175);
+        //drawAlgoChars(qsAlgoTest2.iterate(), qsAlgoTest2.curStep, 375);
+        //drawAlgoChars(qsAlgoTest3.iterate(), qsAlgoTest3.curStep, 590);
+    }
     
 }
 
@@ -34,23 +42,23 @@ function drawAlgoNames(algoNames){
 // specifically separate each letter of the algo names to be displayed on the canvas via drawalgoletter
 function drawAlgoNameLetters(letters, row, col){
     for(let i = 0; i < letters.length; ++i){
-        drawAlgoLetter(letters[i], row, col + i);
+        drawAlgoLetter(letters[i], row, col + i, 0);
     }
 }
 
 // display each letter of the current algo iteration via drawalgoletter
-function drawAlgoChars(chars, row){
+function drawAlgoChars(chars, row, colStart){
     for(let i = 0; i < chars.length; ++i){
-        drawAlgoLetter(chars[i], row, (i * (chars[i].length)));
+        drawAlgoLetter(chars[i], row, (i * (chars[i].length)), colStart);
     }
 }
 
 // display the letters instructed to be printed to the corresponding part of the canvas
-function drawAlgoLetter(letter, row, col){
+function drawAlgoLetter(letter, row, col, colStart){
     textSize(g_canvas.cell_size);
     textAlign(CENTER);
     fill("FFFFFF");
-    text(letter, col * g_canvas.cell_size, row * g_canvas.cell_size, g_canvas.cell_size, g_canvas.cell_size);
+    text(letter, colStart + col * g_canvas.cell_size, row * g_canvas.cell_size, g_canvas.cell_size, g_canvas.cell_size);
 }
 
 

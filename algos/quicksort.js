@@ -17,44 +17,46 @@ class Quicksort {
         return this.curArr;
     }
 
-    swap(items, leftIndex, rightIndex){
-        let temp = items[leftIndex];
-        items[leftIndex] = items[rightIndex];
-        items[rightIndex] = temp;
-        this.steps++;
+    swap(arr, leftPtr, rightPtr){
+        let temp = arr[leftPtr];
+        arr[leftPtr] = arr[rightPtr];
+        arr[rightPtr] = temp;
     }
 
-    partition(items, left, right) {
-        let pivot   = items[Math.floor((right + left) / 2)], //middle element
-            i       = left, //left pointer
-            j       = right; //right pointer
+    partition(arr, left, right) {
+        let pivot   = arr[Math.floor((right + left) / 2)];
+        let i = left;
+        let j = right;
         while (i <= j) {
-            while (items[i] < pivot) {
+            while (arr[i] < pivot) {
                 i++;
             }
-            while (items[j] > pivot) {
+            while (arr[j] > pivot) {
                 j--;
             }
             if (i <= j) {
-                this.swap(items, i, j); //sawpping two elements
+                this.swap(arr, i, j); //sawpping two elements
                 i++;
                 j--;
+                this.steps++;
             }
         }
         return i;
     }
     
-    quickSort(items, left, right) {
+    quickSort(arr, left, right) {
         let index;
-        if (items.length > 1 && this.curStep > this.steps) {
-            index = this.partition(items, left, right); //index returned from partition
-            if (left < index - 1) { //more elements on the left side of the pivot
-                this.quickSort(items, left, index - 1);
-            }
-            if (index < right) { //more elements on the right side of the pivot
-                this.quickSort(items, index, right);
+        if (arr.length > 1) {
+            index = this.partition(arr, left, right); //index returned from partition
+            if(this.curStep > this.steps){
+                if (left < index - 1) { //more elements on the left side of the pivot
+                    this.quickSort(arr, left, index - 1);
+                }
+                if (index < right) { //more elements on the right side of the pivot
+                    this.quickSort(arr, index, right);
+                }
             }
         }
-        return items;
+        return arr;
     }
 }
