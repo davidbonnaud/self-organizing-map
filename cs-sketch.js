@@ -9,6 +9,7 @@ let active = true;
 const sampleInputs = ["05CA62A7BC2B6F03", "065DE66B71F040BA", "0684FB89C3D5754E", "07C9A2D18D3E4B65", "09F48E7862ED2616", "1FAB3D47905FC286", "286E1AD0342D7859",  "30E530BC4786AF21", "328DE47C65C10BA9", "34F2756FD18E90BA", "90BA34F07E56F180", "D7859286E2FD0342"]
 // randomly selected sample input string
 let randomInput = sampleInputs[Math.floor(Math.random() * sampleInputs.length)];
+let inputArr = randomInput.split('');
 // array of the algo names
 const algoNames = ["   Quicksort    ", "    Mergesort   ", "  Selection Sort ", " Gold's Pore Sort "]
 
@@ -19,16 +20,20 @@ function setup() // P5 Setup Fcn
     let height = sz * g_canvas.hgt;
     createCanvas( width, height );  // Make a P5 canvas.
     drawAlgoNames(algoNames);
-    let qsAlgo = new Quicksort(randomInput.split(''));
-    let qsAlgoTest = new Quicksort(randomInput.split(''));
-    let qsAlgoTest2 = new Quicksort(randomInput.split(''));
-    let qsAlgoTest3 = new Quicksort(randomInput.split(''));
-    for(let i = 0; i < 20; i++){
-        drawAlgoChars(qsAlgo.iterate(), qsAlgo.curStep, 0);
+
+    // QUICKSORT
+    let qsAlgo = new Quicksort(inputArr);
+    drawAlgoChars(inputArr, qsAlgo.curStep, 0)
+    qsAlgo.quickSort(inputArr, 0, inputArr.length - 1);
+
+    // MERGESORT
+
+    //for(let i = 0; i < 20; i++){
+        //drawAlgoChars(qsAlgo.iterate(), qsAlgo.curStep, 0);
         //drawAlgoChars(qsAlgoTest.iterate(), qsAlgoTest.curStep, 175);
         //drawAlgoChars(qsAlgoTest2.iterate(), qsAlgoTest2.curStep, 375);
         //drawAlgoChars(qsAlgoTest3.iterate(), qsAlgoTest3.curStep, 590);
-    }
+    //}
     
 }
 

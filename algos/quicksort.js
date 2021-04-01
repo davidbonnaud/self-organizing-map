@@ -1,7 +1,7 @@
 class Quicksort {
     constructor(str){
         this.steps = 0;
-        this.curStep = 0;
+        this.curStep = 1;
         this.curArr = str;
         this.finished = false;
     }
@@ -12,7 +12,7 @@ class Quicksort {
             return drawAlgoLetters("Done: " + this.steps);
         }
 
-        this.curStep++;
+        
         this.curArr = this.quickSort(this.curArr, 0, this.curArr.length - 1);
         return this.curArr;
     }
@@ -25,30 +25,32 @@ class Quicksort {
 
     partition(arr, left, right) {
         let pivot   = arr[Math.floor((right + left) / 2)];
-        let i = left;
-        let j = right;
-        while (i <= j) {
-            while (arr[i] < pivot) {
-                i++;
+        let first = left;
+        let second = right;
+
+        while (first <= second) {
+            while (arr[first] < pivot) {
+                first++;
             }
-            while (arr[j] > pivot) {
-                j--;
+            while (arr[second] > pivot) {
+                second--;
             }
-            if (i <= j) {
-                this.swap(arr, i, j); //sawpping two elements
-                i++;
-                j--;
-                this.steps++;
+            if (first <= second) {
+                this.swap(arr, first, second);
+                first++;
+                second--;
+                this.curStep++;
+                drawAlgoChars(arr,this.curStep, 0);
             }
         }
-        return i;
+        return first;
     }
     
     quickSort(arr, left, right) {
         let index;
         if (arr.length > 1) {
             index = this.partition(arr, left, right); //index returned from partition
-            if(this.curStep > this.steps){
+            if(this.curStep){
                 if (left < index - 1) { //more elements on the left side of the pivot
                     this.quickSort(arr, left, index - 1);
                 }
