@@ -9,7 +9,10 @@ let active = true;
 const sampleInputs = ["05CA62A7BC2B6F03", "065DE66B71F040BA", "0684FB89C3D5754E", "07C9A2D18D3E4B65", "09F48E7862ED2616", "1FAB3D47905FC286", "286E1AD0342D7859",  "30E530BC4786AF21", "328DE47C65C10BA9", "34F2756FD18E90BA", "90BA34F07E56F180", "D7859286E2FD0342"]
 // randomly selected sample input string
 let randomInput = sampleInputs[Math.floor(Math.random() * sampleInputs.length)];
-let inputArr = randomInput.split('');
+let inputArr1 = randomInput.split(''),
+    inputArr2 = randomInput.split(''),
+    inputArr3 = randomInput.split(''),
+    inputArr4 = randomInput.split('');
 // array of the algo names
 const algoNames = ["   Quicksort    ", "    Mergesort   ", "  Selection Sort ", " Gold's Pore Sort "]
 
@@ -22,18 +25,23 @@ function setup() // P5 Setup Fcn
     drawAlgoNames(algoNames);
 
     // QUICKSORT
-    let qsAlgo = new Quicksort(inputArr);
-    drawAlgoChars(inputArr, qsAlgo.curStep, 0)
-    qsAlgo.quickSort(inputArr, 0, inputArr.length - 1);
+    let qsAlgo = new Quicksort();
+    drawAlgoChars(inputArr1, qsAlgo.curStep, 0);
+    qsAlgo.quickSort(inputArr1, 0, inputArr1.length - 1);
 
-    // MERGESORT
+    // MERGESORT 
+    let msAlgo = new Mergesort();
+    drawAlgoChars(inputArr2, msAlgo.curStep, 175);
+    drawAlgoChars(msAlgo.mergeSort(inputArr2), msAlgo.curStep + 1, 175);
 
-    //for(let i = 0; i < 20; i++){
-        //drawAlgoChars(qsAlgo.iterate(), qsAlgo.curStep, 0);
-        //drawAlgoChars(qsAlgoTest.iterate(), qsAlgoTest.curStep, 175);
-        //drawAlgoChars(qsAlgoTest2.iterate(), qsAlgoTest2.curStep, 375);
-        //drawAlgoChars(qsAlgoTest3.iterate(), qsAlgoTest3.curStep, 590);
-    //}
+    // SELECTION SORT COL 375
+    let ssAlgo = new Selectsort();
+    drawAlgoChars(inputArr3, ssAlgo.curStep, 375);
+    ssAlgo.selectionSort(inputArr3);
+
+    console.log(inputArr1, inputArr2, inputArr3, inputArr4);
+    // GOLD'S PORE SORT COL 590 
+
     
 }
 

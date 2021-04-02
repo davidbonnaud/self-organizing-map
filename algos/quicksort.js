@@ -1,20 +1,8 @@
 class Quicksort {
-    constructor(str){
-        this.steps = 0;
+    constructor(){
         this.curStep = 1;
-        this.curArr = str;
+        this.curArr = [];
         this.finished = false;
-    }
-
-    iterate() {
-        console.log(this.curArr);
-        if(this.finished){
-            return drawAlgoLetters("Done: " + this.steps);
-        }
-
-        
-        this.curArr = this.quickSort(this.curArr, 0, this.curArr.length - 1);
-        return this.curArr;
     }
 
     swap(arr, leftPtr, rightPtr){
@@ -47,18 +35,20 @@ class Quicksort {
     }
     
     quickSort(arr, left, right) {
+        this.curArr = arr;
         let index;
-        if (arr.length > 1) {
-            index = this.partition(arr, left, right); //index returned from partition
+        if (this.curArr.length > 1) {
+            index = this.partition(this.curArr, left, right); //index returned from partition
             if(this.curStep){
                 if (left < index - 1) { //more elements on the left side of the pivot
-                    this.quickSort(arr, left, index - 1);
+                    this.quickSort(this.curArr, left, index - 1);
                 }
                 if (index < right) { //more elements on the right side of the pivot
-                    this.quickSort(arr, index, right);
+                    this.quickSort(this.curArr, index, right);
                 }
             }
         }
-        return arr;
+        this.finished = true;
+        return this.curArr;
     }
 }
