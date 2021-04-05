@@ -1,16 +1,8 @@
 Intro
 
-  This project runs the algorithm of a Larks Ant where if the ant sees
-  a black or blue square, it turns left and colors the square yellow, if the ant
-  sees a red square, turn the square black and turn right, and if 
-  it sees a yellow square, turn the square red and start a countdown where 
-  the ant continues in a straight line for 6 blue tiles ignoring the tiles it 
-  passes over, it then returns to the normal state and continues.
-
-  This is an example project using HTML, Javascript (JS), and P5.js
-  which is a JS-adapted version of the Processing Language.  CF HTML and
-  JS on the web (eg, Wikipedia).  More on P5 is at
-  p5js.org/reference.and at github.com/processing/p5.js/wiki.
+  This project runs the algorithms Quicksort, Mergesort, Selection Sort, and Gold's Pore Sort and is a way
+  to visualize the differences in each of the passes for the corresponding algorithms as well as to see which
+  end up being faster.
 
   P5 provides sutomated animation (via a user-built "draw" function),
   and GUI manipulation functions that are simpler than JS.
@@ -21,7 +13,7 @@ Zip Contents
 
   File .  A snapshot of the project webpage.
 
-  File indexe.html. Drag and drop this into a browser to
+  File index.html. Drag and drop this into a browser to
     run the project.
 
   File p5.js. This is the P5 package.  It is loaded inside the html.
@@ -45,14 +37,14 @@ Installation & Running
 
   2. Drag the index HTML file, index.html, into a browser
     window.  The example P5 program should start immediately.  You
-    should see a black box that immediately begins to start having 
-    colored squares, showing the positions the ant visited and the 
-    actions it took.
+    should see 4 columns of sets of 16 character strings that show the steps of each pass in
+    the algorithms.
 
 Known Bugs
 
-  o- Ant does not start by going upward an additional square visually,
-     but checking the console reveals it does in fact do that.
+  o- Mergesort does not print complete 16 character strings.
+     Timer does not delay output and has been temporarily removed until solved.
+     Gold's Pore Sort is still in progress.
 
 Warnings
 

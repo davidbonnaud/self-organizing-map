@@ -16,7 +16,7 @@ class Mergesort {
         sorted = sorted.concat(arr1.slice().concat(arr2.slice()));
         this.curStep++;
         //console.log(sorted);
-        //drawAlgoChars(, this.curStep, 175);
+        drawAlgoChars(sorted, this.curStep, 175);
         return sorted;
       };
 

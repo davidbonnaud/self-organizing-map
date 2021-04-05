@@ -39,7 +39,6 @@ function setup() // P5 Setup Fcn
     drawAlgoChars(inputArr3, ssAlgo.curStep, 375);
     ssAlgo.selectionSort(inputArr3);
 
-    console.log(inputArr1, inputArr2, inputArr3, inputArr4);
     // GOLD'S PORE SORT COL 590 
 
     
