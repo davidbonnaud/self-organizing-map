@@ -1,27 +1,54 @@
 //wild-space vector constraints
 let range = [[-5,5], [-5,5], [-60,60]];
 // canvas settings
-WIDTH = 500;
-HEIGHT = 500;
+const WIDTH = 500;
+const HEIGHT = 500;
+const CELL_SIZE = 20;
 
 // defining a 2d matrix for neurons
-let neurons = Array(21);
-for(let x = 0; x < 21; ++x){
-    neurons[x] = Array(21);
-}
+let neurons = Array();
+
+const ROWS = neurons.length;
+const COLS = neurons.length;
+const index = (row, col) => { return row * ROWS + col };
+
 // Training data
-let input_vector = [2, 4, -17.6];
+let input_vectors = [
+    [2,4,-17.6], [5,5,-53.5], [5,4,-18.8], [5,3,-6.9], [5,2,-15.6],
+    [5,1,19.3], [5,0,0.0], [5,-1,-11.3], [5,-2,-0.4], [5,-3,-14.1],
+    [5,-4,0.8], [5,-5, -12.5], [4,5,-22.0], [4,4,-14.2], [4,3,-7.8],
+    // continue...
+];
 
-// run at the start, create the canvas seen on the page
-function setup(){
-    createCanvas(WIDTH, HEIGHT);
+class Node{
+    constructor(row, col){
+        this.wilder = randomNum(range);
+        this.color = [100, 100, 100];
+        this.row = row;
+        this.col = col;
+        this.index = index(row, col);
+    }
+    
+    draw(){
+        fill(this.color);
+        stroke(this.color);
+        rect(this.row*CELL_SIZE, this.col*CELL_SIZE, CELL_SIZE, CELL_SIZE);
+    }
 }
 
-// runs continuously, draw the specified details to the page
-function draw(){
-    background('GREY');
-    fill('GREEN');
-    rect(50, 50, 100, 100);
+
+function createNodes(){
+    for(let row = 0; row < ROWS; ++row){
+        for(let col = 0; col < COLS; ++col){
+            neurons.push(new Node(row, col));
+        }
+    }
+}
+
+function drawNodes(){
+    for(let i = 0; i < neurons.length; ++i){
+        neurons[i].draw();
+    }
 }
 
 // calculating the euclidean distance
@@ -49,13 +76,13 @@ function randomNum(range){
     return randWilder;
 }
 
-function createNeuronMatrix(matrix){
+/*function createNeuronMatrix(matrix){
     for(let row = 0; row < matrix.length; ++row){
         for(let col = 0; col < matrix[row].length; ++col){
             matrix[row][col] = randomNum(range);
         }
     }
-}
+}*/
 
 // Finding BMU; closest neuron to input
 function findBMU(input){
@@ -75,8 +102,22 @@ function findBMU(input){
     return best;
 }
 
-createNeuronMatrix(neurons);
 
+//createNeuronMatrix(neurons);
+
+// run at the start, create the canvas seen on the page
+function setup(){
+    createCanvas(WIDTH, HEIGHT);
+    createNodes();
+    drawNodes();
+}
+
+// runs continuously, draw the specified details to the page
+function draw(){
+    background('GREY');
+    fill('GREEN');
+    rect(50, 50, 100, 100);
+}
 
 
 
